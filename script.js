@@ -152,4 +152,92 @@ document.addEventListener("DOMContentLoaded", async () => {
       track.scrollBy({ left: getStep(), behavior: "smooth" });
     });
   });
+
+  // REVIEWS CAROUSEL
+const track = document.querySelector("[data-reviews-track]");
+if (track) {
+  const originalItems = Array.from(track.children);
+  if (!originalItems.length) return;
+
+  // Duplicate for seamless loop
+  originalItems.forEach((item) => {
+    track.appendChild(item.cloneNode(true));
+  });
+
+  // Avatar initials
+  track.querySelectorAll(".avatar").forEach((el) => {
+    const name = el.dataset.name || "";
+    const initials = name
+      .split(" ")
+      .filter(Boolean)
+      .map((p) => p[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+
+    el.textContent = initials || "G";
+  });
+
+  let position = 0;
+  let speed = 0.35;
+  let paused = false;
+  let halfWidth = 0;
+
+  const measure = () => {
+    halfWidth = track.scrollWidth / 2;
+  };
+
+  const animate = () => {
+    if (!paused && halfWidth > 0) {
+      position -= speed;
+
+      if (Math.abs(position) >= halfWidth) {
+        position = 0;
+      }
+
+      track.style.transform = `translate3d(${position}px, 0, 0)`;
+    }
+
+    requestAnimationFrame(animate);
+  };
+
+  // wait for layout
+  requestAnimationFrame(() => {
+    measure();
+    animate();
+  });
+
+  window.addEventListener("resize", measure);
+
+  track.addEventListener("mouseenter", () => (paused = true));
+  track.addEventListener("mouseleave", () => (paused = false));
+
+  // Touch support
+  let startX = 0;
+  let dragging = false;
+
+  track.addEventListener("touchstart", (e) => {
+    dragging = true;
+    paused = true;
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+
+  track.addEventListener("touchmove", (e) => {
+    if (!dragging) return;
+
+    const currentX = e.touches[0].clientX;
+    const delta = currentX - startX;
+
+    position += delta * 0.55;
+    startX = currentX;
+
+    track.style.transform = `translate3d(${position}px, 0, 0)`;
+    e.preventDefault();
+  }, { passive: false });
+
+  track.addEventListener("touchend", () => {
+    dragging = false;
+    paused = false;
+  });
+}
 });

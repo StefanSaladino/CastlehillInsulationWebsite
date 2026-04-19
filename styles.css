@@ -554,6 +554,106 @@ p {
   font-weight: 800;
 }
 
+/* Reviews track */
+.reviews-track-wrap {
+  overflow: hidden;
+  margin-top: 2rem;
+  position: relative;
+}
+
+.reviews-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  gap: 1rem;
+  will-change: transform;
+  touch-action: pan-y;
+}
+
+.review-card {
+  flex: 0 0 auto;
+  width: 300px;
+  padding: 1.3rem;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.review-header strong {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.review-header span {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7a1d1d, #a13a3a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #fff;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.review-card p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 0.9rem;
+}
+
+.stars {
+  color: #f5c518;
+}
+
+.reviews-track-wrap::before,
+.reviews-track-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 80px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.reviews-track-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg), transparent);
+}
+
+.reviews-track-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg), transparent);
+}
+
+@media (max-width: 768px) {
+  .review-card {
+    width: 240px;
+  }
+}
+
 /* =========================
    WORK GALLERY (FIXED)
 ========================= */
@@ -822,6 +922,10 @@ footer img {
     width: auto;
     margin-left: 4rem;
     margin-bottom: 1rem;
+}
+
+footer h3 {
+  padding-bottom: 0.8em;
 }
 
 .site-footer {
